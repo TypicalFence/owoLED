@@ -23,8 +23,7 @@
 
 #define NS_TO_CYCLES(n) ( (n) / NS_PER_CYCLE )
 
-static void sendBit(bool bitVal) {
-  
+static void sendBit(OwOLedAddress *address,  bool bitVal) {
     if (bitVal) {				// 0 bit
 		asm volatile (
             // Set the output bit
@@ -37,8 +36,8 @@ static void sendBit(bool bitVal) {
 			"nop \n\t"
 			".endr \n\t"
 			::
-			[port]		"I" (_SFR_IO_ADDR(PIXEL_PORT)),
-			[bit]		"I" (PIXEL_BIT),
+			[port]		"g" (_SFR_IO_ADDR(address->port)),
+			[bit]		"g" (address->pin),
 			[onCycles]	"I" (NS_TO_CYCLES(T1H) - 2),		
             // 1-bit width less overhead  for the actual bit setting, i
             // note that this delay could be longer and everything would still work
@@ -66,8 +65,8 @@ static void sendBit(bool bitVal) {
 			"nop \n\t"
 			".endr \n\t"
 			::
-			[port]		"I" (_SFR_IO_ADDR(PIXEL_PORT)),
-			[bit]		"I" (PIXEL_BIT),
+			[port]		"g" (_SFR_IO_ADDR(address->port)),
+			[bit]		"g" (address->pin),
 			[onCycles]	"I" (NS_TO_CYCLES(T0H) - 2),
 			[offCycles]	"I" (NS_TO_CYCLES(T0L) - 2)
 
@@ -76,21 +75,37 @@ static void sendBit(bool bitVal) {
     }
 }  
 
-static void sendByte( unsigned char byte ) {
+static void sendByte(OwOLedAddress *address, unsigned char byte) {
     for(unsigned char bit = 0 ; bit < 8 ; bit++) {
-      sendBit(byte & 0b10000000); 
+      sendBit(address, byte & 0b10000000); 
       byte <<= 1;
     }           
 } 
 
-void sendPixel(unsigned char r, unsigned char g , unsigned char b) {
-  sendByte(g);          // Neopixel wants colors in green then red then blue order
-  sendByte(r);
-  sendByte(b);
+OwOLedAddress owoled_init(int port, int ddr, int pin) { 
+    int volatile * const ddr_reg = (int *) ddr;
+    *ddr_reg = 0b00000001;
+    
+    OwOLedAddress addr;
+    addr.port = port;
+    addr.ddr = ddr;
+    addr.pin = pin;
+    return addr;
+}
+
+void owoled_send_colors(OwOLedAddress *address, unsigned char red, unsigned char green, unsigned char blue) {
+  // Neopixel wants colors in green then red then blue order
+  sendByte(address, green); 
+  sendByte(address, red);
+  sendByte(address, blue);
+}
+
+void owoled_send_pixel(OwOLedAddress *address, OwOLedPixel pixel) {
+    owoled_send_colors(address, pixel.red, pixel.green, pixel.blue);
 }
 
 // Just wait long enough without sending any bots to cause the pixels to latch and display the last sent frame
-void show() {
+void owoled_show() {
     // Round up since the delay must be _at_least_ this long (too short might not work, too long not a problem)
 	_delay_us( (RES / 1000UL) + 1);				
 }
