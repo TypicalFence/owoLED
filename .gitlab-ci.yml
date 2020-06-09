@@ -1,0 +1,19 @@
+image: "registry.git.chaostreffbern.ch/molniya-gang/docker-avr-gcc:latest"
+
+stages:
+  - build
+  - examples
+
+build:
+  stage: build
+  script:
+    - make libowoled.a 
+
+examples-basic:
+  stage: examples
+  script:
+    - cd examples/basic
+    - make
+  artifacts:
+    paths:
+    - examples/basic/basic.ihex
