@@ -75,8 +75,9 @@ static void sendByte(OwOLedAddress *address, unsigned char byte) {
 } 
 
 OwOLedAddress owoled_init(int port, int ddr, int pin) { 
-    int volatile * const ddr_reg = (int *) ddr;
-    *ddr_reg = 0b00000001;
+    //int volatile * const ddr_reg = (int *) ddr;
+    //*ddr_reg = 0b00000001;
+    PIXEL_DDR = 0b00000001;
     
     OwOLedAddress addr;
     addr.port = port;
