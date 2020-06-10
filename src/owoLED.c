@@ -24,7 +24,7 @@
 #define NS_TO_CYCLES(n) ( (n) / NS_PER_CYCLE )
 
 static void sendBit(OwOLedAddress *address,  bool bitVal) {
-    //char mask = (PIXEL_BIT << 1);
+    char mask = (1 << address->pin); // Achtung: ganzer Port B wirt geschrieben
     if (bitVal) {				// 0 bit
 		asm volatile (
             "st Z, %[bit] \n\t"
@@ -39,7 +39,8 @@ static void sendBit(OwOLedAddress *address,  bool bitVal) {
 			".endr \n\t"
 			::
 			[port]		"z" (_SFR_IO_ADDR(PIXEL_PORT) + 32),
-			[bit]		"l" (0xff),
+			//[port]		"z" (_SFR_IO_ADDR(address->port) + 32),
+			[bit]		"l" (mask),
 			[null]		"l" (0),
 			[onCycles]	"I" (NS_TO_CYCLES(T1H) - 2),
             [offCycles] 	"I" (NS_TO_CYCLES(T1L) - 2)	
@@ -59,7 +60,8 @@ static void sendBit(OwOLedAddress *address,  bool bitVal) {
 			".endr \n\t"
 			::
 			[port]		"z" (_SFR_IO_ADDR(PIXEL_PORT) + 32),
-			[bit]		"l" (0xff),
+			//[port]		"z" (_SFR_IO_ADDR(address->port) + 32),
+            [bit]		"l" (mask),
 			[null]		"l" (0),
 			[onCycles]	"I" (NS_TO_CYCLES(T0H) - 2),
             [offCycles] 	"I" (NS_TO_CYCLES(T0L) - 2)	
