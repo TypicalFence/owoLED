@@ -7,7 +7,9 @@
 #define PIXEL_BIT   0      // Bit of the pin the pixels are connected to
 
 typedef struct {
-  uint8_t port, ddr, pin;
+  uint8_t port;
+  volatile uint8_t *ddr;
+  uint8_t pin;
 } OwOLedAddress;
 
 typedef struct {
