@@ -76,11 +76,9 @@ static void sendByte(OwOLedAddress *address, unsigned char byte) {
     }           
 } 
 
-OwOLedAddress owoled_init(int port, int ddr, int pin) { 
-    //int volatile * const ddr_reg = (int *) ddr;
-    //*ddr_reg = 0b00000001;
-    PIXEL_DDR = 0b00000001;
-    
+OwOLedAddress owoled_init(uint8_t port, volatile uint8_t *ddr, uint8_t pin) { 
+    *ddr |= (1 << pin);
+
     OwOLedAddress addr;
     addr.port = port;
     addr.ddr = ddr;
@@ -88,7 +86,7 @@ OwOLedAddress owoled_init(int port, int ddr, int pin) {
     return addr;
 }
 
-void owoled_send_colors(OwOLedAddress *address, unsigned char red, unsigned char green, unsigned char blue) {
+void owoled_send_colors(OwOLedAddress *address, uint8_t red, uint8_t green, uint8_t blue) {
   // Neopixel wants colors in green then red then blue order
   sendByte(address, green); 
   sendByte(address, red);
