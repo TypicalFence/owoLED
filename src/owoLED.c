@@ -1,71 +1,63 @@
 #include <owoLED.h>
 
-// These are the timing constraints taken mostly from the WS2812 datasheets 
-// These are chosen to be conservative and avoid problems rather than for maximum throughput 
+// Timing of the output signal in ns
+#define T1H  900    // Width the hige part of a 1 bit
+#define T1L  350    // Width the low part of a 1 bit
 
-#define T1H  900    // Width of a 1 bit in ns
-#define T1L  600    // Width of a 1 bit in ns
+#define T0H  350    // Width the hige part of a 0 bit
+#define T0L  900    // Width the low part of a 0 bit
 
-#define T0H  400    // Width of a 0 bit in ns
-#define T0L  900    // Width of a 0 bit in ns
-
-// The reset gap can be 6000 ns, but depending on the LED strip it may have to be increased
-// to values like 600000 ns. If it is too small, the pixels will show nothing most of the time.
 #define RES 6000    // Width of the low gap between bits to cause a frame to latch
 
-// Here are some convience defines for using nanoseconds specs to generate actual CPU delays
-
-#define NS_PER_SEC (1000000000L) // Note that this has to be SIGNED since we want to be able to check for negative values of derivatives
-
-#define CYCLES_PER_SEC (F_CPU)
-
-#define NS_PER_CYCLE ( NS_PER_SEC / CYCLES_PER_SEC )
-
-#define NS_TO_CYCLES(n) ( (n) / NS_PER_CYCLE )
+// Nanoseconds to CPU cycles
+#define NS_TO_CYCLES(n) ( (n) / ( 1000000000L / F_CPU) ) // nanoseconds / ( nanoseconds per second / cycle per second ) 
 
 static void sendBit(OwOLedAddress *address,  bool bitVal) {
-    char mask = (1 << address->pin); // Achtung: ganzer Port B wirt geschrieben
+    char mask = (1 << address->pin);
     if (bitVal) {				// 0 bit
 		asm volatile (
-            "st Z, %[bit] \n\t"
-			//"sbi %[port], %[bit] \n\t"				// Set the output bit
+            "ld r0, Z \n\t"
+            "or r0, %[bit] \n\t"
+            "st Z, r0 \n\t"
 			".rept %[onCycles] \n\t"                                
             "nop \n\t"
 			".endr \n\t"
             "st Z, %[null] \n\t"
-			//"cbi %[port], %[bit] \n\t"
             ".rept %[offCycles] \n\t"
             "nop \n\t"
 			".endr \n\t"
 			::
-			[port]		"z" (_SFR_IO_ADDR(PIXEL_PORT) + 32),
-			//[port]		"z" (_SFR_IO_ADDR(address->port) + 32),
-			[bit]		"l" (mask),
+			[port]		"z" (address->port),
+            [bit]		"l" (mask),
 			[null]		"l" (0),
 			[onCycles]	"I" (NS_TO_CYCLES(T1H) - 2),
             [offCycles] 	"I" (NS_TO_CYCLES(T1L) - 2)	
+            :
+            "r0", "r1"
 		);
-                                  
+                                 
     } else {					// 1 bit
 		asm volatile (
-            "st Z, %[bit] \n\t"
-			//"sbi %[port], %[bit] \n\t"				// Set the output bit
+            "ld r0, Z \n\t"
+            "or r0, %[bit] \n\t"
+            "st Z, r0 \n\t"
 			".rept %[onCycles] \n\t"                                
             "nop \n\t"
 			".endr \n\t"
             "st Z, %[null] \n\t"
-			//"cbi %[port], %[bit] \n\t"
             ".rept %[offCycles] \n\t"
             "nop \n\t"
 			".endr \n\t"
 			::
-			[port]		"z" (_SFR_IO_ADDR(PIXEL_PORT) + 32),
-			//[port]		"z" (_SFR_IO_ADDR(address->port) + 32),
+			[port]		"z" (address->port),
             [bit]		"l" (mask),
 			[null]		"l" (0),
 			[onCycles]	"I" (NS_TO_CYCLES(T0H) - 2),
             [offCycles] 	"I" (NS_TO_CYCLES(T0L) - 2)	
-		);
+            :
+            "r0", "r1"
+        );
+
     }
 }  
 
@@ -76,7 +68,7 @@ static void sendByte(OwOLedAddress *address, unsigned char byte) {
     }           
 } 
 
-OwOLedAddress owoled_init(uint8_t port, volatile uint8_t *ddr, uint8_t pin) { 
+OwOLedAddress owoled_init(volatile uint8_t *port, volatile uint8_t *ddr, uint8_t pin) { 
     *ddr |= (1 << pin);
 
     OwOLedAddress addr;
@@ -87,7 +79,6 @@ OwOLedAddress owoled_init(uint8_t port, volatile uint8_t *ddr, uint8_t pin) {
 }
 
 void owoled_send_colors(OwOLedAddress *address, uint8_t red, uint8_t green, uint8_t blue) {
-  // Neopixel wants colors in green then red then blue order
   sendByte(address, green); 
   sendByte(address, red);
   sendByte(address, blue);
@@ -97,8 +88,6 @@ void owoled_send_pixel(OwOLedAddress *address, OwOLedPixel pixel) {
     owoled_send_colors(address, pixel.red, pixel.green, pixel.blue);
 }
 
-// Just wait long enough without sending any bots to cause the pixels to latch and display the last sent frame
 void owoled_show() {
-    // Round up since the delay must be _at_least_ this long (too short might not work, too long not a problem)
 	_delay_us( (RES / 1000UL) + 1);				
 }
