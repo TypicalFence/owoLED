@@ -1,18 +1,28 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
 \input{font}
 
+% Turn on the style
+\pagestyle{fancy}
+% Clear the header and footer
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+% Set the right side of the footer to be the page number
+\fancyfoot[R]{\thepage}
 
-\title{owoLED\linebreak Technical Documentation}
+
+\title{owoLED Technical Documentation}
 \date{2020}
 \author{молния Gang}
 
 
 \begin{document}
 
-\maketitle
-
-\newpage
+\input{titlepage}
 
 \tableofcontents
 
