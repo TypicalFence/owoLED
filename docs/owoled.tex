@@ -2,6 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{svg}
 \input{font}
 
 % Turn on the style
@@ -13,7 +16,20 @@
 \renewcommand{\footrulewidth}{0pt}
 % Set the right side of the footer to be the page number
 \fancyfoot[R]{\thepage}
+% style links
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+% general settings
+\graphicspath{ {./images/} }
+\setlength{\parindent}{0cm}
 
+% custom macros
+\newcommand{\betterParagraph}[1]{\paragraph{#1}\mbox{}\\}
 
 \title{owoLED Technical Documentation}
 \date{2020}
@@ -28,6 +44,34 @@
 
 \newpage
 
+\section*{Preface}
+\addcontentsline{toc}{section}{Preface}
+We had a bunch of \textit{WS2813B} Led\-strips lying around and wanted to make them go blinky with an arduino.
+The thing is we really don't like the Arduino Toolchain and code that includes their headers that do random magic.
+While looking into alternatives we discovered that most existing solutions weren't very versatile and relied on  copying third party code aroun.
+\bigbreak
+This Document aims to provide all necesary Infomration that you need to use this marvelous library, that is free of Arduino bloat. 
+
+\betterParagraph{Source Code}
+The Source code of the Project and this doccument can be found at \url{https://git.chaostreffbern.ch/molniya-gang/owoled/}.
+
+\betterParagraph{License}
+This Document is Licensed under the \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International} License.
+\bigbreak
+\includegraphics{cc-by-nc-sa_icon.png}
+\bigbreak
+\includesvg{./images/cc-by-nc-sa_icon.svg}
+
+\newpage
+\section{Project Overview}
+
+\newpage
+\section{Using owoLED}
+
+\newpage
+\section{Examples}
+
+\newpage
 \input{build/api}
 
 
