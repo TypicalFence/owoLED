@@ -37,3 +37,4 @@ clean:
 	rm -f basic.elf
 	rm -f basic.ihex
 	rm -rf build
+	rm -f ../../libowoled.a
