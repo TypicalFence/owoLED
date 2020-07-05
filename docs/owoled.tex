@@ -4,7 +4,9 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage{svg}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{seqsplit}
 \input{font}
 
 % Turn on the style
@@ -47,7 +49,7 @@
 \section*{Preface}
 \addcontentsline{toc}{section}{Preface}
 We had a bunch of \textit{WS2813B} Led\-strips lying around and wanted to make them go blinky with an arduino.
-The thing is we really don't like the Arduino Toolchain and code that includes their headers that do random magic.
+The thing is we really don't like the Arduino Toolchain and code that includes their headers, that do random magic.
 While looking into alternatives we discovered that most existing solutions weren't very versatile and relied on  copying third party code aroun.
 \bigbreak
 This Document aims to provide all necesary Infomration that you need to use this marvelous library, that is free of Arduino bloat. 
@@ -60,18 +62,50 @@ This Document is Licensed under the \href{https://creativecommons.org/licenses/b
 \bigbreak
 \includegraphics{cc-by-nc-sa_icon.png}
 \bigbreak
-\includesvg{./images/cc-by-nc-sa_icon.svg}
 
 \newpage
 \section{Project Overview}
 
+\subsection{Scope \& Goals}
+
+\subsection{Hardware Support}
+
+\subsection{Directory Structure}
+This Section is somewhat useless and just here to be fancy.
+\bigskip
+
+Eitherway it should give you a nice little overview.
+\bigskip
+
+\dirtree{%
+    .1 owoled.
+    .2 datasheets\DTcomment{Datasheets of the LED strips}.
+    .2 examples\DTcomment{Flashable example code}.
+    .3 basic.
+    .2 docs\DTcomment{The source of this document}.
+    .3 fonts.
+    .3 images.
+    .3 utils\DTcomment{Scripts and utilities for building the docs}.
+    .2 include\DTcomment{Headerfiles}.
+    .2 src\DTcomment{Source code}.
+}
+
+\subsection{Build system}
+
 \newpage
 \section{Using owoLED}
 
-\newpage
-\section{Examples}
+\subsection{Building \& running the examples}
+\subsection{Options for using owoLED in your project}
+\subsubsection{Vendoring}
+\subsubsection{Binaries}
 
 \newpage
+\section{Examples}
+\subsection{Basic}
+
+\newpage
+\section{Api Reference}
 \input{build/api}
 
 

@@ -9,10 +9,9 @@ default: owoled.pdf
 	doxygen
 
 ./build/api.tex: ./build/xml/index.xml
-	python3 ./util/doxytex/gen-latex.py ./build/xml 1 > ./build/api.tex 
+	python3 ./util/doxytex/gen-latex.py ./build/xml 2 > ./build/api.tex
 
 ./build/owoled.pdf: ./build/api.tex $(TEX)
-	#latexmk -use-make -xelatex -jobname=./build/owoled owoled.tex
 	latexmk -use-make -pdf -pdflatex="xelatex -interaction=nonstopmode" -jobname=./build/owoled owoled.tex
 
 ./owoled.pdf: ./build/owoled.pdf
