@@ -1,0 +1,3 @@
+[submodule "docs/util/doxytex"]
+	path = docs/util/doxytex
+	url = https://git.chaostreffbern.ch/molniya-gang/doxytex.git

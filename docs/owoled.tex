@@ -1,0 +1,86 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{dirtree}
+\usepackage{listings}
+\usepackage{seqsplit}
+\input{font}
+
+% Turn on the style
+\pagestyle{fancy}
+% Clear the header and footer
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+% Set the right side of the footer to be the page number
+\fancyfoot[R]{\thepage}
+% style links
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+% listings
+\lstset{
+    % frameround=fttt,
+    language=C,
+    % numbers=left,
+    breaklines=true,
+    keywordstyle=\color{blue}\bfseries, 
+    basicstyle=\ttfamily\color{red},
+    %numberstyle=\color{black}
+}
+
+\lstdefinestyle{fileC}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+  numbers=left,
+}
+
+% general settings
+\graphicspath{ {./images/} }
+\setlength{\parindent}{0cm}
+
+% custom macros
+\newcommand{\betterParagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+\title{owoLED Technical Documentation}
+\date{2020}
+\author{молния Gang}
+
+\begin{document}
+
+\input{titlepage.tex}
+\tableofcontents
+\newpage
+
+\input{sections/0-preface.tex}
+\newpage
+
+\input{sections/1-project-overview.tex}
+\newpage
+
+\input{sections/2-using-owoled.tex}
+\newpage
+
+\input{sections/3-examples.tex}
+\newpage
+\section{Api Reference}
+\input{build/api}
+
+\end{document}
