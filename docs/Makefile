@@ -1,4 +1,4 @@
-TEX := $(wildcard *.tex)
+TEX := $(wildcard *.tex sections/*.tex)
 
 .Phony: clean
 

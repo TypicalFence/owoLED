@@ -26,6 +26,32 @@
     linkcolor=black,
     urlcolor=blue
 }
+% listings
+\lstset{
+    % frameround=fttt,
+    language=C,
+    % numbers=left,
+    breaklines=true,
+    keywordstyle=\color{blue}\bfseries, 
+    basicstyle=\ttfamily\color{red},
+    %numberstyle=\color{black}
+}
+
+\lstdefinestyle{fileC}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+  numbers=left,
+}
+
 % general settings
 \graphicspath{ {./images/} }
 \setlength{\parindent}{0cm}
@@ -37,76 +63,24 @@
 \date{2020}
 \author{молния Gang}
 
-
 \begin{document}
 
-\input{titlepage}
-
+\input{titlepage.tex}
 \tableofcontents
-
 \newpage
 
-\section*{Preface}
-\addcontentsline{toc}{section}{Preface}
-We had a bunch of \textit{WS2813B} Led\-strips lying around and wanted to make them go blinky with an arduino.
-The thing is we really don't like the Arduino Toolchain and code that includes their headers, that do random magic.
-While looking into alternatives we discovered that most existing solutions weren't very versatile and relied on  copying third party code aroun.
-\bigbreak
-This Document aims to provide all necesary Infomration that you need to use this marvelous library, that is free of Arduino bloat. 
-
-\betterParagraph{Source Code}
-The Source code of the Project and this doccument can be found at \url{https://git.chaostreffbern.ch/molniya-gang/owoled/}.
-
-\betterParagraph{License}
-This Document is Licensed under the \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International} License.
-\bigbreak
-\includegraphics{cc-by-nc-sa_icon.png}
-\bigbreak
-
+\input{sections/0-preface.tex}
 \newpage
-\section{Project Overview}
 
-\subsection{Scope \& Goals}
-
-\subsection{Hardware Support}
-
-\subsection{Directory Structure}
-This Section is somewhat useless and just here to be fancy.
-\bigskip
-
-Eitherway it should give you a nice little overview.
-\bigskip
-
-\dirtree{%
-    .1 owoled.
-    .2 datasheets\DTcomment{Datasheets of the LED strips}.
-    .2 examples\DTcomment{Flashable example code}.
-    .3 basic.
-    .2 docs\DTcomment{The source of this document}.
-    .3 fonts.
-    .3 images.
-    .3 utils\DTcomment{Scripts and utilities for building the docs}.
-    .2 include\DTcomment{Headerfiles}.
-    .2 src\DTcomment{Source code}.
-}
-
-\subsection{Build system}
-
+\input{sections/1-project-overview.tex}
 \newpage
-\section{Using owoLED}
 
-\subsection{Building \& running the examples}
-\subsection{Options for using owoLED in your project}
-\subsubsection{Vendoring}
-\subsubsection{Binaries}
-
+\input{sections/2-using-owoled.tex}
 \newpage
-\section{Examples}
-\subsection{Basic}
 
+\input{sections/3-examples.tex}
 \newpage
 \section{Api Reference}
 \input{build/api}
-
 
 \end{document}

@@ -1,0 +1,74 @@
+\section{Project Overview}
+
+\subsection{Scope \& Goals}
+OwOLED is a library for working with LED strips in general, currently only supporting WS2812. Support for other kinds of strips isn't really planned at this point, but its rather likely that it will be added once the authors need it.
+
+\bigskip
+The library aims to be simple and easy to use, to sorta be the go to library when using a bare metal AVR-toolchain.
+
+\bigskip
+While fast performance is nice it isn't a strict goal, or in other words we do not aim to compete with other Libraries.
+
+\bigskip
+Here are some feature highlights:
+
+\begin{itemize}
+    \item Simple API
+    \item Easily drive multiple strips on different pins
+    \item Small amount of Code (easy to maintain)
+    \item Simple build system, easily integrable into your project 
+\end{itemize}
+
+\subsection{Hardware Support}
+Currently we have only tested the code on an \href{https://www.microchip.com/wwwproducts/en/ATMEGA328P}{ATmega328P} found on the Arduino Uno. But \textbf{it should work on most avr chips™}.
+
+In terms of LED strips, as of now we only tested \textit{WS2813B} strips.
+
+\subsubsection{Supported Led Strips}
+We have tested the code on the following types of strips:
+\begin{itemize}
+    \item WS2813B
+\end{itemize}
+
+\bigskip
+The code should also work with following strips:
+
+\begin{itemize}
+    \item WS2811
+    \item WS2812
+    \item WS2812B
+    \item WS2813
+\end{itemize}
+
+If you have tested it one of the above strips, please inform us about it by opening an \href{https://git.chaostreffbern.ch/molniya-gang/owoled/-/issues}{issue}.
+
+\subsubsection{Tested MCU's}
+The project has been tested on the following chips:
+\begin{itemize}
+    \item{ATmega328P}
+\end{itemize}
+
+If you have tested it one some other Chip please open a issue about it \href{https://git.chaostreffbern.ch/molniya-gang/owoled/-/issues}{here}, or if you have added support for some other chip please open a \href{https://git.chaostreffbern.ch/molniya-gang/owoled/-/merge_requests}{merge request}.
+
+\subsection{Directory Structure}
+This Section is somewhat useless and just here to be fancy.
+\bigskip
+
+Either way it should give you a nice little overview.
+\bigskip
+
+\dirtree{%
+    .1 owoled.
+    .2 datasheets\DTcomment{Datasheets of the LED strips}.
+    .2 examples\DTcomment{Flashable example code}.
+    .3 basic.
+    .2 docs\DTcomment{The source of this document}.
+    .3 fonts.
+    .3 images.
+    .3 utils\DTcomment{Scripts and utilities for building the docs}.
+    .2 include\DTcomment{Headerfiles}.
+    .2 src\DTcomment{Source code}.
+}
+
+\subsection{Build system}
+The build system is a glorious Makefile, using \href{https://www.gnu.org/software/make}{GNU Make}.
