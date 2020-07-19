@@ -1,3 +1,11 @@
+#ifndef OWOLED_H
+#define OWOLED_H
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stdbool.h>
 #include <util/delay.h>
 #include <avr/io.h>
@@ -54,3 +62,9 @@ void owoled_send_pixel(OwOLedAddress *address, OwOLedPixel pixel);
  * You could also just set a delay or sleep yourself, its just for convenience.
  */
 void owoled_show();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
