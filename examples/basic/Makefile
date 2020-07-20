@@ -1,12 +1,12 @@
 CC=avr-gcc
-MMCU=atmega328p
+MCU=atmega328p
 CLOCK=16000000
 DEVICE=/dev/ttyACM0
 
 CFLAGS := -std=gnu99 -Os -Wall -ffunction-sections -fdata-sections 
-CFLAGS += -mmcu=$(MMCU) -DF_CPU=$(CLOCK) 
+CFLAGS += -mmcu=$(MCU) -DF_CPU=$(CLOCK) 
 CFLAGS += -I ../../include 
-LDFLAGS := -Os -mmcu=$(MMCU) -ffunction-sections -fdata-sections -Wl,--gc-sections 
+LDFLAGS := -Os -mmcu=$(MCU) -ffunction-sections -fdata-sections -Wl,--gc-sections 
 LDFLAGS += -L ../../ -lowoled 
 
 SOURCES := $(wildcard src/*.c src/*/*.c)
@@ -31,7 +31,7 @@ $(OBJECTS): ./build/%.o: ./src/%.c
 	$(MAKE) -C ../../ libowoled.a 
 
 flash: basic.ihex
-	avrdude -C /etc/avrdude.conf -p $(MMCU) -c arduino -b 115200 -P $(DEVICE) -D -U flash:w:basic.ihex
+	avrdude -C /etc/avrdude.conf -p $(MCU) -c arduino -b 115200 -P $(DEVICE) -D -U flash:w:basic.ihex
 
 clean:
 	rm -f basic.elf

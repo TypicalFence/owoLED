@@ -1,8 +1,8 @@
 CC=avr-gcc
-MMCU=atmega328p
+MCU=atmega328p
 CLOCK=16000000
 
-CFLAGS := -std=gnu99 -Os -Wall -ffunction-sections -fdata-sections -mmcu=$(MMCU) -DF_CPU=$(CLOCK)
+CFLAGS := -std=gnu99 -Os -Wall -ffunction-sections -fdata-sections -mmcu=$(MCU) -DF_CPU=$(CLOCK)
 CFLAGS += -I ./include
 
 SOURCES := $(wildcard src/*.c src/*/*.c)
